@@ -3,6 +3,16 @@ set -a
 source ./application.env
 set +a
 
-export JAVA_OPTS="-Xms512m -Xmx2048m -Dhttp.port=9000"
+export JAVA_DEBUG_OPT="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9009"
+export JAVA_OPTS="-Xms512m -Xmx2048m -Dhttp.port=9002 "$JAVA_DEBUG_OPT
+export WHEREHOWS_BACKEND="/data0/wherehows/application/wherehows-backend"
 
-build/stage/wherehows-frontend/bin/playBinary
+export WHZ_ELASTICSEARCH_DATASET_QUERY_TEMPLATE=$WHEREHOWS_BACKEND/ELASTICSEARCH/dataset_query_template.json
+export WHZ_ELASTICSEARCH_METRIC_QUERY_TEMPLATE=$WHEREHOWS_BACKEND/ELASTICSEARCH/metric_query_template.json
+export WHZ_ELASTICSEARCH_FLOW_QUERY_TEMPLATE=$WHEREHOWS_BACKEND/ELASTICSEARCH/flow_query_template.json
+export WHZ_ELASTICSEARCH_COMMENT_QUERY_TEMPLATE=$WHEREHOWS_BACKEND/ELASTICSEARCH/comment_query_template.json
+export WHZ_ELASTICSEARCH_SUGGESTER_QUERY_TEMPLATE=$WHEREHOWS_BACKEND/ELASTICSEARCH/suggester_query_template.json
+export WHZ_ELASTICSEARCH_AUTO_COMPLETION_QUERY_TEMPLATE=$WHEREHOWS_BACKEND/ELASTICSEARCH/auto_completion_query_template.json
+export WHZ_ELASTICSEARCH_FILTER_UNIT=$WHEREHOWS_BACKEND/ELASTICSEARCH/filter_unit.json
+
+./bin/playBinary
