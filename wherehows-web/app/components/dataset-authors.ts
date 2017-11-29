@@ -3,6 +3,7 @@ import { inject } from '@ember/service';
 import ComputedProperty, { filter } from '@ember/object/computed';
 import { set, get, computed, getProperties } from '@ember/object';
 import { assert } from '@ember/debug';
+import { task, Task } from 'ember-concurrency';
 
 import UserLookup from 'wherehows-web/services/user-lookup';
 import CurrentUser from 'wherehows-web/services/current-user';
@@ -15,6 +16,7 @@ import {
 } from 'wherehows-web/constants/datasets/owner';
 import {
   isRequiredMinOwnersNotConfirmed,
+  OwnerIdType,
   OwnerSource,
   OwnerType,
   validConfirmedOwners
@@ -126,13 +128,25 @@ export default class DatasetAuthors extends Component {
   );
 
   /**
-   * Lists owners that have been gleaned from dataset metadata
+   * Lists owners that have been gleaned from dataset metadata,
+   * filters out owners that have a source that is NOT OwnerSource.Ui and idType that IS OwnerIdType.User
    * @type {ComputedProperty<Array<IOwner>>}
    * @memberof DatasetAuthors
    */
-  systemGeneratedOwners: ComputedProperty<Array<IOwner>> = filter('owners', function({ source }: IOwner) {
-    return source !== OwnerSource.Ui;
+  systemGeneratedOwners: ComputedProperty<Array<IOwner>> = filter('owners', function({ source, idType }: IOwner) {
+    return source !== OwnerSource.Ui && idType === OwnerIdType.User;
   });
+
+  /**
+   * Invokes the external action as a dropping task
+   * @type {Task<Promise<Array<IOwner>>, void>}
+   * @memberof DatasetAuthors
+   */
+  saveOwners: Task<Promise<Array<IOwner>>, void> = task(function*(
+    this: DatasetAuthors
+  ): IterableIterator<Promise<Array<IOwner>>> {
+    yield get(this, 'save')(get(this, 'owners'));
+  }).drop();
 
   constructor() {
     super(...arguments);
@@ -194,14 +208,6 @@ export default class DatasetAuthors extends Component {
     removeOwner: (owner: IOwner): IOwner => {
       const owners = get(this, 'owners') || [];
       return owners.removeObject(owner);
-    },
-
-    /**
-     * Persists the owners list by invoking the external action
-     */
-    saveOwners: () => {
-      const { save } = this;
-      save(get(this, 'owners'));
     }
   };
 }
