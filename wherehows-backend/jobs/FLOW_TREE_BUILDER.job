@@ -1,0 +1,7 @@
+# Rebuild flow tree
+job.type=tree
+job.script=jython/FlowTreeBuilder.py
+#job.disabled=1
+#tree.flow.file=/data0/wherehows/data/resource/flow.json
+
+wherehows.ui.tree.flow.file=/data0/wherehows/data/resource/flow.json

@@ -10,7 +10,7 @@ job.ref.id=0
 # Jython scripts
 job.jython.load=jython/ElasticSearchIndex.py
 
-elasticsearch.url=http://10.1.3.115
+elasticsearch.url=http://ip
 elasticsearch.port=9200
 elasticsearch.index=wherehows
 elasticsearch.bulk.insert.size=100

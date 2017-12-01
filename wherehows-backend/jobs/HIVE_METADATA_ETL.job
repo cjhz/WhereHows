@@ -9,18 +9,18 @@ job.ref.id=65
 
 # hive metastore jdbc url
 #hive.metastore.jdbc.url=your_metastore_jdb_url
-hive.metastore.jdbc.url=jdbc:mysql://10.1.1.234:3306/hive?createDatabaseIfNotExist=false
+hive.metastore.jdbc.url=jdbc:mysql://ip:3306/hive?createDatabaseIfNotExist=false
 
 # hive metastore jdbc driver
 hive.metastore.jdbc.driver=com.mysql.jdbc.Driver
 
 # hive metastore user name
 #hive.metastore.username=your_metastore_username
-hive.metastore.username=hive
+hive.metastore.username=*****
 
 # hive metastore password
 #hive.metastore.password=your_metastore_password
-hive.metastore.password=ageluTPoTH
+hive.metastore.password=******
 
 # hive metastore DB reconnect interval
 #hive.metastore.reconnect.time=your_reconnect_interval_seconds
@@ -50,7 +50,7 @@ hive.dependency_csv_file=/data0/wherehows/data/hive/hive_dependency.csv
 
 # HDFS namenode IPC URI
 #hdfs.namenode.ipc.uri=your_namenode_ipc_uri
-hdfs.namenode.ipc.uri=hdfs://10.1.1.236:8022
+hdfs.namenode.ipc.uri=hdfs://*****:8022
 
 # Enable/disable kerberos authentication & related configs
 #kerberos.auth=True
@@ -63,3 +63,8 @@ krb5.realm=your_realm
 
 # innodb_lock_wait_timeout when accessing MySQL Db
 innodb_lock_wait_timeout=1500
+
+
+
+rebuild.tree.dataset=yes
+rebuild.tree.flow=yes

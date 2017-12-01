@@ -1,0 +1,7 @@
+# Rebuild dataset tree
+job.type=tree
+job.script=jython/DatasetTreeBuilder.py
+#job.disabled=1
+#tree.dataset.file=/data0/wherehows/data/resource/dataset.json
+
+wherehows.ui.tree.dataset.file=/data0/wherehows/data/resource/dataset.json
